@@ -72,6 +72,31 @@
         </div>
     </div>
 
+    <!-- Modal History Status Keluhan -->
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Timeline Status Keluhan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Waktu Perubahan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="timelineContainer">
+                            <!-- Timeline akan diisi di sini -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Tabel Keluhan -->
     <div class="card">
         <div class="card-header">Daftar Keluhan</div>
@@ -236,6 +261,46 @@
                                         .text('Terjadi kesalahan saat menghapus data.').fadeIn();
                     }
                 });
+            });
+        });
+
+        $(document).on('click', '.history', function() {
+            var keluhanId = $(this).data('id');
+            $.ajax({
+                url: '{{ route('keluhan.history', ':id') }}'.replace(':id', keluhanId),
+                type: 'GET',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#timelineContainer').empty();
+
+                        var initialStatus = response.data.initial_status;
+                        var initialDate = response.data.created_at;
+                        var initialStatusText = ['Received', 'In Process', 'Done'][initialStatus] || 'Unknown';
+                        $('#timelineContainer').append(`
+                            <tr>
+                                <td>${initialStatusText}</td>
+                                <td>${initialDate}</td>
+                            </tr>
+                        `);
+
+                        response.data.history.forEach(function(item) {
+                            var statusText = ['Received', 'In Process', 'Done'][item.status_keluhan] || 'Unknown';
+                            $('#timelineContainer').append(`
+                                <tr>
+                                    <td>${statusText}</td>
+                                    <td>${item.updated_at}</td>
+                                </tr>
+                            `);
+                        });
+
+                        $('#historyModal').modal('show');
+                    } else {
+                        alert('Tidak ada riwayat status untuk keluhan ini.');
+                    }
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan saat mengambil data riwayat status keluhan.');
+                }
             });
         });
     });

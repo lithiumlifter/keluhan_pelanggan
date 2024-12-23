@@ -11,11 +11,8 @@ Route::put('keluhan/{id}', [KeluhanPelangganController::class, 'update'])->name(
 Route::get('keluhan/{id}', [KeluhanPelangganController::class, 'show'])->name('keluhan.show');
 Route::delete('keluhan/{id}', [KeluhanPelangganController::class, 'destroy'])->name('keluhan.destroy');
 Route::get('keluhan/export/{format}', [KeluhanPelangganController::class, 'export'])->name('keluhan.export');
-
-
-
+Route::get('/keluhan/{id}/history', [KeluhanPelangganController::class, 'history'])->name('keluhan.history');
 Auth::routes();
-
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])
     ->where('any', '.*')
     ->name('home');

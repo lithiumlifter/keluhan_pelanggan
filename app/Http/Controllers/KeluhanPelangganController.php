@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\KeluhanPelanggan;
+use App\Models\KeluhanStatusHis;
 use Illuminate\Routing\Controller;
-use App\Exports\KeluhanPelangganExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Dompdf\Dompdf;
+use App\Exports\KeluhanPelangganExport;
 use App\Http\Requests\KeluhanPelangganRequest;
-
 
 class KeluhanPelangganController extends Controller
 {
@@ -80,6 +80,12 @@ class KeluhanPelangganController extends Controller
             'keluhan' => $request->keluhan,
         ]);
 
+        KeluhanStatusHis::create([
+            'keluhan_id' => $keluhan->id,
+            'status_keluhan' => 0,
+            'updated_at' => Carbon::now(),
+        ]);
+
         return response()->json([
             'status' => 'success',
             'data' => $keluhan
@@ -97,14 +103,39 @@ class KeluhanPelangganController extends Controller
         return response()->json(['status' => 'success', 'data' => $keluhan]);
     }
 
-    public function edit(KeluhanPelanggan $keluhanPelanggan)
+    public function history($id)
     {
-        //
+        $keluhan = KeluhanPelanggan::find($id);
+        
+        if (!$keluhan) {
+            return response()->json(['status' => 'error', 'message' => 'Keluhan tidak ditemukan.']);
+        }
+    
+        $history = KeluhanStatusHis::where('keluhan_id', $id)
+                                    ->orderBy('updated_at', 'asc')
+                                    ->get();
+    
+        $timeline = [
+            'initial_status' => $keluhan->status_keluhan,
+            'created_at' => $keluhan->created_at,
+            'history' => $history
+        ];
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $timeline
+        ]);
     }
 
     public function update(KeluhanPelangganRequest $request,$id)
     {
         $keluhan = KeluhanPelanggan::findOrFail($id);
+
+        KeluhanStatusHis::create([
+            'keluhan_id' => $keluhan->id,
+            'status_keluhan' => $keluhan->status_keluhan,
+            'updated_at' => Carbon::now(),
+        ]);
 
         $keluhan->update([
             'nama' => $request->nama,
