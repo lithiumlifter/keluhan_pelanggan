@@ -271,10 +271,21 @@
 
                         response.data.history.forEach(function(item) {
                             var statusText = ['Received', 'In Process', 'Done'][item.status_keluhan] || 'Unknown';
+                            
+                            var formattedDate = new Date(item.updated_at).toLocaleString('id-ID', {
+                                weekday: 'long', 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric', 
+                                hour: 'numeric', 
+                                minute: 'numeric', 
+                                second: 'numeric'
+                            });
+
                             $('#timelineContainer').append(`
                                 <tr>
                                     <td>${statusText}</td>
-                                    <td>${item.updated_at}</td>
+                                    <td>${formattedDate}</td>
                                 </tr>
                             `);
                         });
@@ -289,6 +300,7 @@
                 }
             });
         });
+
     });
 </script>
 @endpush
