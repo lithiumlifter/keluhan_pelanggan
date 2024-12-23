@@ -10,6 +10,8 @@ Route::post('/keluhan/store', [KeluhanPelangganController::class, 'store'])->nam
 Route::put('keluhan/{id}', [KeluhanPelangganController::class, 'update'])->name('keluhan.update');
 Route::get('keluhan/{id}', [KeluhanPelangganController::class, 'show'])->name('keluhan.show');
 Route::delete('keluhan/{id}', [KeluhanPelangganController::class, 'destroy'])->name('keluhan.destroy');
+Route::get('keluhan/export/{format}', [KeluhanPelangganController::class, 'export'])->name('keluhan.export');
+
 
 
 Auth::routes();

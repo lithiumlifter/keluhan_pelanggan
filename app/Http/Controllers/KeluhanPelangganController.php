@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\KeluhanPelanggan;
 use Illuminate\Routing\Controller;
+use App\Exports\KeluhanPelangganExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
 
 
 class KeluhanPelangganController extends Controller
@@ -143,6 +146,43 @@ class KeluhanPelangganController extends Controller
         }
         $keluhan->delete();
         return response()->json(['status' => 'success', 'message' => 'Keluhan berhasil dihapus.']);
+    }
+
+    public function export($format)
+    {
+        if ($format == 'csv') {
+            return Excel::download(new KeluhanPelangganExport, 'keluhan_pelanggan.csv');
+        }
+
+        if ($format == 'xls') {
+            return Excel::download(new KeluhanPelangganExport, 'keluhan_pelanggan.xlsx');
+        }
+
+        if ($format == 'txt') {
+            $keluhan = KeluhanPelanggan::all();
+            $fileContent = "ID\tNama\tEmail\tStatus Keluhan\tCreated At\tUpdated At\n";
+            foreach ($keluhan as $item) {
+                $fileContent .= "{$item->id}\t{$item->nama}\t{$item->email}\t{$item->status_keluhan}\t{$item->created_at}\t{$item->updated_at}\n";
+            }
+
+            return response($fileContent)
+                    ->header('Content-Type', 'text/plain')
+                    ->header('Content-Disposition', 'attachment; filename="keluhan_pelanggan.txt"');
+        }
+
+        if ($format == 'pdf') {
+            $keluhan = KeluhanPelanggan::all();
+            $htmlContent = view('exports.keluhan_pdf', compact('keluhan'))->render();
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($htmlContent);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+
+            return $dompdf->stream('keluhan_pelanggan.pdf');
+        }
+
+        return response()->json(['message' => 'Format not supported'], 400);
     }
     
 }

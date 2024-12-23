@@ -7,6 +7,15 @@
     <div id="alertMessage" class="alert d-none" role="alert"></div>
 
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#keluhanModal">Tambah Keluhan +</button>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <button class="btn btn-success" onclick="window.location='{{ route('keluhan.export', ['format' => 'csv']) }}'">Export CSV</button>
+            <button class="btn btn-success" onclick="window.location='{{ route('keluhan.export', ['format' => 'xls']) }}'">Export XLS</button>
+            <button class="btn btn-success" onclick="window.location='{{ route('keluhan.export', ['format' => 'txt']) }}'">Export TXT</button>
+            <button class="btn btn-success" onclick="window.location='{{ route('keluhan.export', ['format' => 'pdf']) }}'">Export PDF</button>
+        </div>
+    </div>
+    
 
     <!-- Modal Form Keluhan -->
     <div class="modal fade" id="keluhanModal" tabindex="-1" aria-labelledby="keluhanModalLabel" aria-hidden="true">
