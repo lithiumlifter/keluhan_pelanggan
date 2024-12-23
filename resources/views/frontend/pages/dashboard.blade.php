@@ -35,26 +35,28 @@
                 <div class="card-title">Top 10 Keluhan</div>
             </div>
             <div class="card-body">
-            <table class="table table-head-bg-primary mt-4">
-                    <thead>
-                        <tr>
-                            <th scope="col">nama</th>
-                            <th scope="col">email</th>
-                            <th scope="col">created_at</th>
-                            <th scope="col">umur_keluhan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($keluhan as $item)
+                <div class="table-responsive">
+                    <table class="table table-head-bg-primary mt-4">
+                        <thead>
                             <tr>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
-                                <td>{{ $item->umur_keluhan }}</td>
+                                <th scope="col">nama</th>
+                                <th scope="col">email</th>
+                                <th scope="col">created_at</th>
+                                <th scope="col">umur_keluhan</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach($keluhan as $item)
+                                <tr>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->created_at->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ $item->umur_keluhan }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -16,8 +16,6 @@
         </div>
     </div>
     
-
-    <!-- Modal Form Keluhan -->
     <div class="modal fade" id="keluhanModal" tabindex="-1" aria-labelledby="keluhanModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -53,7 +51,6 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -72,7 +69,6 @@
         </div>
     </div>
 
-    <!-- Modal History Status Keluhan -->
     <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -97,46 +93,46 @@
         </div>
     </div>
 
-    <!-- Tabel Keluhan -->
     <div class="card">
         <div class="card-header">Daftar Keluhan</div>
         <div class="card-body">
-            <table class="table table-bordered" id="keluhanTable">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Nomor HP</th>
-                        <th>Status</th>
-                        <th>Created_at</th>
-                        <th>Updated_at</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($keluhan as $item)
-                    <tr>
-                        <td>{{ $item->nama }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>{{ $item->nomor_hp ?? '-' }}</td>
-                        <td>
-                            @php
-                            $statuses = ['Received', 'In Process', 'Done'];
-                            $status = $statuses[$item->status_keluhan] ?? 'Unknown';
-                            @endphp
-                            {{ $status }}
-                        </td>
-                        <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->updated_at }}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm edit" data-id="{{ $item->id }}">Edit</button>
-                            <button class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">Hapus</button>
-                            <button class="btn btn-info btn-sm history" data-id="{{ $item->id }}">History</button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>            
+            <div class="table-responsive">
+                <table class="table table-bordered" id="keluhanTable">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Nomor HP</th>
+                            <th>Status</th>
+                            <th>Created_at</th>
+                            <th>Updated_at</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($keluhan as $item)
+                        <tr>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->nomor_hp ?? '-' }}</td>
+                            <td>
+                                @php
+                                $statuses = ['Received', 'In Process', 'Done'];
+                                $status = $statuses[$item->status_keluhan] ?? 'Unknown';
+                                @endphp
+                                {{ $status }}
+                            </td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->updated_at }}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm edit" data-id="{{ $item->id }}">Edit</button>
+                                <button class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">Hapus</button>
+                                <button class="btn btn-info btn-sm history" data-id="{{ $item->id }}">History</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table> </div>           
         </div>
     </div>
 </div>
