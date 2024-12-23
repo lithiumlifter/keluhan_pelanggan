@@ -273,16 +273,6 @@
                     if (response.status === 'success') {
                         $('#timelineContainer').empty();
 
-                        var initialStatus = response.data.initial_status;
-                        var initialDate = response.data.created_at;
-                        var initialStatusText = ['Received', 'In Process', 'Done'][initialStatus] || 'Unknown';
-                        $('#timelineContainer').append(`
-                            <tr>
-                                <td>${initialStatusText}</td>
-                                <td>${initialDate}</td>
-                            </tr>
-                        `);
-
                         response.data.history.forEach(function(item) {
                             var statusText = ['Received', 'In Process', 'Done'][item.status_keluhan] || 'Unknown';
                             $('#timelineContainer').append(`
