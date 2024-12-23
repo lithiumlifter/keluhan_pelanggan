@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use App\Exports\KeluhanPelangganExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Dompdf\Dompdf;
+use App\Http\Requests\KeluhanPelangganRequest;
 
 
 class KeluhanPelangganController extends Controller
@@ -69,18 +70,8 @@ class KeluhanPelangganController extends Controller
         return view('frontend.pages.keluhan_pelanggan.index', compact('keluhan'));
     }
 
-    public function store(Request $request)
+    public function store(KeluhanPelangganRequest $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'nomor_hp' => 'nullable|regex:/^[0-9]+$/',
-            'keluhan' => 'required|string',
-        ], [
-            'nama.max' => 'Text too long, maximum 50 characters.',
-            'nomor_hp.regex' => 'Input numeric only for Nomor HP.',
-        ]);
-
         $keluhan = KeluhanPelanggan::create([
             'nama' => $request->nama,
             'email' => $request->email,
@@ -111,18 +102,8 @@ class KeluhanPelangganController extends Controller
         //
     }
 
-    public function update(Request $request,$id)
+    public function update(KeluhanPelangganRequest $request,$id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'nomor_hp' => 'nullable|regex:/^[0-9]+$/',
-            'keluhan' => 'required|string',
-        ], [
-            'nama.max' => 'Text too long, maximum 50 characters.',
-            'nomor_hp.regex' => 'Input numeric only for Nomor HP.',
-        ]);
-
         $keluhan = KeluhanPelanggan::findOrFail($id);
 
         $keluhan->update([
