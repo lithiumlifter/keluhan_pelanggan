@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('keluhan_pelanggans', function (Blueprint $table) {
+        Schema::create('keluhan_status_his', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('keluhan_id')->constrained('keluhan_pelanggan')->onDelete('cascade');
+            $table->string('status_keluhan', 1);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('keluhan_pelanggans');
+        Schema::dropIfExists('keluhan_status_his');
     }
 };

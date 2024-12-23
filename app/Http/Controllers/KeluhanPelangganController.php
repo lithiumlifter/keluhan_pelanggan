@@ -14,7 +14,8 @@ class KeluhanPelangganController extends Controller
      */
     public function index()
     {
-        //
+        $keluhan = KeluhanPelanggan::with('statuses')->get();
+        return response()->json($keluhan);
     }
 
     /**
