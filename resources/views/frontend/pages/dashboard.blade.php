@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <h4 class="card-title">Statistik Keluhan Pie Chart</h4>
                     <p class="card-category">
-                    Berdasarkan Status Keluhan</p>
+                    Berdasarkan Status Keluhan %</p>
                 </div>
                 <div class="card-body">
                     <div id="monthlyChart" class="chart chart-pie"></div>
@@ -21,7 +21,7 @@
                 <div class="card-header">
                     <h4 class="card-title">Statistik Keluhan Bar Chart</h4>
                     <p class="card-category">
-                        Berdasarkan Status Keluhan Perbulan</p>
+                        Berdasarkan Status Keluhan Perbulan %</p>
                 </div>
                 <div class="card-body">
                     <div id="salesChart" class="chart"></div>
@@ -98,10 +98,10 @@
         Chartist.Bar('#salesChart', dataSales, optionChartSales, responsiveChartSales);
     </script>
     <script>
-        var receivedPercentage = {{ $receivedPercentage }};
-        var inProcessPercentage = {{ $inProcessPercentage }};
-        var donePercentage = {{ $donePercentage }};
-    
+        var receivedPercentage = Math.round({{ $receivedPercentage }});
+        var inProcessPercentage = Math.round({{ $inProcessPercentage }});
+        var donePercentage = Math.round({{ $donePercentage }});
+        
         new Chartist.Pie('#monthlyChart', {
             labels: ['Received', 'In Process', 'Done'],
             series: [receivedPercentage, inProcessPercentage, donePercentage]
